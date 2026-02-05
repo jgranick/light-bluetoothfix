@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.joshuagranick.btautopin">
+
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="34" />
+
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"/>
+
+    <application
+        android:label="Bluetooth Auto PIN (0000)"
+        android:allowBackup="true"
+        android:hasCode="true"
+        android:exported="false">
+
+        <receiver
+            android:name=".PairingReceiver"
+            android:exported="true">
+            <intent-filter android:priority="1000">
+                <action android:name="android.bluetooth.device.action.PAIRING_REQUEST"/>
+            </intent-filter>
+        </receiver>
+
+    </application>
+</manifest>
