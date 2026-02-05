@@ -7,22 +7,41 @@
         android:minSdkVersion="21"
         android:targetSdkVersion="34" />
 
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"/>
+    <!-- Required for Bluetooth access -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+
+    <!--
+        NOTE:
+        BLUETOOTH_PRIVILEGED is a signature|system permission and
+        MUST be granted via priv-app installation and platform signing.
+    -->
+    <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
 
     <application
-        android:label="Bluetooth Auto PIN (0000)"
-        android:allowBackup="true"
+        android:label="Bluetooth Auto PIN"
+        android:allowBackup="false"
         android:hasCode="true"
         android:exported="false">
 
+        <!--
+            Headless Bluetooth pairing receiver for devices without SystemUI dialogs.
+
+            REQUIREMENTS:
+            - Installed as /system/priv-app
+            - Signed with platform key
+            - BLUETOOTH_PRIVILEGED granted via privapp-permissions XML
+        -->
         <receiver
             android:name=".PairingReceiver"
-            android:exported="true">
-            <intent-filter android:priority="1000">
-                <action android:name="android.bluetooth.device.action.PAIRING_REQUEST"/>
+            android:exported="false"
+            android:permission="android.permission.BLUETOOTH_PRIVILEGED">
+
+            <intent-filter>
+                <action android:name="android.bluetooth.device.action.PAIRING_REQUEST" />
             </intent-filter>
+
         </receiver>
 
     </application>
